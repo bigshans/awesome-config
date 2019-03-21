@@ -58,7 +58,7 @@ end
 
 -- run_once({ "urxvtd", "unclutter -root" }) -- entries must be separated by commas
 
-os.execute("compton -c -f -o 1.0 -I 0.1 -O 0.1 -C -i 0.95 -z --vsync opengl-swc --paint-on-overlay --backend glx --shadow-exclude \"! name~=\'\'\" -b --use-ewmh-active-win --glx-no-stencil")
+os.execute("bash -c \"compton -c -f -o 1.0 -I 0.1 -O 0.1 -C -i 0.95 -z --vsync opengl-swc --paint-on-overlay --backend glx --shadow-exclude \"! name~=\'\'\" -b --use-ewmh-active-win --glx-no-stencil\"")
 
 run_once({"nm-applet", "nm-applet"})
 run_once({"xfce4-power-manager"})
@@ -112,22 +112,22 @@ awful.layout.layouts = {
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
-    -- awful.layout.suit.fair,
+    awful.layout.suit.fair,
     -- awful.layout.suit.fair.horizontal,
-    -- awful.layout.suit.spiral,
+    awful.layout.suit.spiral,
     -- awful.layout.suit.spiral.dwindle,
-    --awful.layout.suit.max,
+    awful.layout.suit.max,
     --awful.layout.suit.max.fullscreen,
-    --awful.layout.suit.magnifier,
+    awful.layout.suit.magnifier,
     --awful.layout.suit.corner.nw,
     --awful.layout.suit.corner.ne,
     --awful.layout.suit.corner.sw,
     --awful.layout.suit.corner.se,
-    --lain.layout.cascade,
+    -- lain.layout.cascade,
     --lain.layout.cascade.tile,
-    --lain.layout.centerwork,
+    -- lain.layout.centerwork,
     --lain.layout.centerwork.horizontal,
-    --lain.layout.termfair,
+    -- lain.layout.termfair,
     --lain.layout.termfair.center,
 }
 
@@ -349,9 +349,13 @@ globalkeys = my_table.join(
         {description = "toggle wibox", group = "awesome"}),
 
     -- On the fly useless gaps change
-    awful.key({ altkey, "Control" }, "+", function () lain.util.useless_gaps_resize(1) end,
+    awful.key({ altkey, "Control" }, "+", function () 
+        beautiful.useless_gaps = 1 + beautiful.useless_gaps
+        end,
               {description = "increment useless gaps", group = "tag"}),
-    awful.key({ altkey, "Control" }, "-", function () lain.util.useless_gaps_resize(-1) end,
+    awful.key({ altkey, "Control" }, "-", function () 
+        beautiful.useless_gaps = beautiful.useless_gaps - 1
+        end,
               {description = "decrement useless gaps", group = "tag"}),
 
     -- Dynamic tagging
@@ -675,7 +679,7 @@ awful.rules.rules = {
                      buttons = clientbuttons,
                      screen = awful.screen.preferred,
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen,
-                     size_hints_honor = false
+                     size_hints_honor = true
      }
     },
 
@@ -686,7 +690,7 @@ awful.rules.rules = {
     -- Set Firefox to always map on the first tag on screen 1.
     { rule = { class = "Firefox" },
       properties = { screen = 1, tag = awful.util.tagnames[1] } },
-    { rule = { class = "google-chrome" },
+    { rule = { class = "google-chrome-stable" },
       properties = { screen = 1, tag = awful.util.tagnames[1] } },
     { rule = { class = "Gimp", role = "gimp-image-window" },
           properties = { maximized = true } },
@@ -773,9 +777,9 @@ client.connect_signal("request::titlebars", function(c)
 end)
 
 -- Enable sloppy focus, so that focus follows mouse.
-client.connect_signal("mouse::enter", function(c)
-    c:emit_signal("request::activate", "mouse_enter", {raise = true})
-end)
+-- client.connect_signal("mouse::enter", function(c)
+    -- c:emit_signal("request::activate", "mouse_enter", {raise = true})
+-- end)
 
 -- No border for maximized clients
 function border_adjust(c)
