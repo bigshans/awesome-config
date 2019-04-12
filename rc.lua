@@ -100,7 +100,7 @@ local altkey       = "Mod1"
 local terminal     = "terminator"
 local editor       = os.getenv("EDITOR") or "vim"
 local gui_editor   = "emacs"
-local browser      = "optirun google-chrome"
+local browser      = "google-chrome --password-store=basic"
 local guieditor    = "code"
 local scrlocker    = "i3lock-fancy -gpf Comic-Sans-MS"
 
@@ -270,10 +270,10 @@ globalkeys = my_table.join(
               {description = "go back", group = "tag"}),
 
     -- Non-empty tag browsing
-    awful.key({ altkey }, "Left", function () lain.util.tag_view_nonempty(-1) end,
-              {description = "view  previous nonempty", group = "tag"}),
-    awful.key({ altkey }, "Right", function () lain.util.tag_view_nonempty(1) end,
-              {description = "view  previous nonempty", group = "tag"}),
+    -- awful.key({ altkey }, "Left", function () lain.util.tag_view_nonempty(-1) end,
+              -- {description = "view  previous nonempty", group = "tag"}),
+    -- awful.key({ altkey }, "Right", function () lain.util.tag_view_nonempty(1) end,
+              -- {description = "view  previous nonempty", group = "tag"}),
 
     -- Default client focus
     awful.key({ altkey,           }, "j",
@@ -444,7 +444,7 @@ globalkeys = my_table.join(
             beautiful.volume.update()
         end,
         {description = "volume down", group = "hotkeys"}),
-    awful.key({ modkey }, "m",
+    awful.key({ modkey, "Shift"}, "m",
         function ()
             os.execute(string.format("amixer -q set %s toggle", beautiful.volume.togglechannel or beautiful.volume.channel))
             beautiful.volume.update()
