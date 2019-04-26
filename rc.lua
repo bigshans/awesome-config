@@ -58,7 +58,9 @@ end
 
 -- run_once({ "urxvtd", "unclutter -root" }) -- entries must be separated by commas
 
-os.execute("bash -c \"compton -c -f -o 1.0 -I 0.1 -O 0.1 -C -i 0.95 -z --vsync opengl-swc --paint-on-overlay --backend glx --shadow-exclude \"! name~=\'\'\" -b --use-ewmh-active-win --glx-no-stencil\"")
+-- os.execute("bash -c \"compton -c -f -o 1.0 -I 0.1 -O 0.1 -C -i 0.95 -z --vsync opengl-swc --paint-on-overlay --backend glx --shadow-exclude \"! name~=\'\'\" -b --use-ewmh-active-win --glx-no-stencil\"")
+
+os.execute("bash -c \"compton --backend glx --paint-on-overlay --glx-no-stencil --vsync opengl-swc --unredir-if-possible &\"")
 
 run_once({"nm-applet", "nm-applet"})
 run_once({"xfce4-power-manager"})
